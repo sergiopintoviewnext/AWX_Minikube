@@ -1,0 +1,46 @@
+---
+
+- name: Instalación Minikube
+  block:
+    - name: Comprobar Minikube
+      ansible.builtin.command:
+        cmd: minikube version
+  rescue:
+    - name: Descargar paquete 
+      ansible.builtin.uri:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: "{{ path }}"
+
+    - name: Instalar Minikube
+      ansible.builtin.command:
+        chdir: "{{ path }}"
+        cmd: install minikube-linux-amd64 /usr/local/bin/minikube
+
+    - name: Eliminar paquete
+      ansible.builtin.file:
+        path: "{{ path }}/minikube-linux-amd64"
+        state: absent
+
+- name: Iniciar Minikube
+  block:
+    - name: Iniciar Minikube
+      ansible.builtin.command:
+        cmd: minikube start --driver docker
+
+    - name: Check Minikube status
+      ansible.builtin.command:
+        cmd: minikube status
+      register: status
+
+    - name: Debug status
+      ansible.builtin.debug:
+        var: status.stdout_lines
+
+    - name: Assert status Minikube
+      ansible.builtin.assert:
+        that: '"Running" in status.stdout'
+        success_msg: "Minikube corriendo"
+        fail_msg: "Error al iniciar Minikube"
+  become: false
+
+...

@@ -1,0 +1,7 @@
+---
+
+path: /tmp
+
+arch: '{% if ansible_os_family == "Debian" %}_amd64.deb{% else %}.x86_64.rpm{% endif %}'
+
+...
