@@ -1,0 +1,47 @@
+---
+
+- name: Block Redhat
+  when: ansible_os_family == "RedHat"
+  block:
+    - name: Añadir repo docker
+      ansible.builtin.yum_repository:
+        name: Docker
+        description: Docker
+        baseurl: https://download.docker.com/linux/centos/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/stable/
+        gpgcheck: no
+
+
+- name: Instalación Docker
+  block:
+    - name: Comprobar instalacion docker
+      ansible.builtin.command:
+        cmd: docker --version
+  rescue:
+    - name: Instalar docker 
+      ansible.builtin.package:
+        name: "{{ paquete_docker }}"
+        state: present
+        update_cache: true
+
+
+- name: Añadir usuario a grupo docker
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+  register: user
+
+
+- name: Reiniciar equipo
+  ansible.builtin.reboot:
+    reboot_timeout: 300
+  when: user.changed
+
+
+- name: Levantar servicio docker
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+            
+...
