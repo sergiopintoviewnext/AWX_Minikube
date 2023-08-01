@@ -5,6 +5,11 @@
     - name: Comprobar Minikube
       ansible.builtin.command:
         cmd: minikube version
+      register: minikube
+
+    - name: Debug minikube
+      ansible.builtin.debug:
+        msg: "Minikube instalado en la version: {{ minikube.stdout_lines[0][18::] }}"
   rescue:
     - name: Descargar paquete 
       ansible.builtin.uri:
@@ -25,7 +30,7 @@
   block:
     - name: Iniciar Minikube
       ansible.builtin.command:
-        cmd: minikube start --driver docker
+        cmd: minikube start --driver=docker --cpus=4  --memory=8g --addons=ingress
 
     - name: Check Minikube status
       ansible.builtin.command:
