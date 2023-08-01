@@ -1,7 +1,7 @@
 ---
 
-version: 1.27.4
-
 path: /tmp
+
+version: 1.27.4
 
 ...
