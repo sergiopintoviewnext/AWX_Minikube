@@ -1,0 +1,7 @@
+---
+
+path: /tmp/awx
+
+version: 21.14.0
+
+...
