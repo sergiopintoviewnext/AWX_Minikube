@@ -4,7 +4,11 @@
   block:
     - name: Comprobar si kubectl está instalado
       ansible.builtin.command:
-        cmd: kubectl --help    
+        cmd: kubectl --help
+
+    - name: Msg kubectl instalado
+      ansible.builtin.debug:
+        msg: "Kubectl esta instalado"
   rescue:
     - name: Descargar paquete 
       ansible.builtin.uri:
