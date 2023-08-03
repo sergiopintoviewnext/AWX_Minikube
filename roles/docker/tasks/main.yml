@@ -40,6 +40,7 @@
       ansible.builtin.assert:
         that: compose.stat.exists
         success_msg: "Docker compose instalado en la version: {{ version_compose }}"
+        fail_msg: "Docker compose no esta instalado"
   rescue:
     - name: Instalar docker-compose
       ansible.builtin.get_url:
