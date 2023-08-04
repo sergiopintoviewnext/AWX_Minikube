@@ -19,7 +19,7 @@
     - name: Instalar Minikube
       ansible.builtin.command:
         chdir: "{{ path }}"
-        cmd: install minikube-linux-amd64 /usr/local/bin/minikube
+        cmd: install minikube-linux-amd64 /usr/bin/minikube
 
     - name: Eliminar paquete
       ansible.builtin.file:
