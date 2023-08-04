@@ -18,7 +18,7 @@
     - name: Instalar kubectl
       ansible.builtin.copy:
         src: "{{ path }}/kubectl"
-        dest: /usr/local/bin/kubectl
+        dest: /usr/bin/kubectl
         owner: root
         group: root
         mode: '0755'
