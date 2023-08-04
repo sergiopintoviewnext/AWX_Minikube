@@ -5,8 +5,7 @@ resources:
   - github.com/ansible/awx-operator/config/default?ref={{ version_awx_operator }}
 
 images:
-  #- name: quay.io/ansible/awx-operator
-  - name: quay.io/ansible/awx-ee:{{ version_awx }}
+  - name: quay.io/ansible/awx-operator
     newTag: {{ version_awx_operator }}
 
 namespace: awx

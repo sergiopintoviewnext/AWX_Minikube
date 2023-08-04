@@ -3,6 +3,5 @@
 path: /tmp/awx
 
 version_awx_operator: 2.5.0
-version_awx: 21.14.0
 
 ...
