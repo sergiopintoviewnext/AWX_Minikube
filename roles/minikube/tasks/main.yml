@@ -25,6 +25,7 @@
       ansible.builtin.file:
         path: "{{ path }}/minikube-linux-amd64"
         state: absent
+    
 
 - name: Iniciar Minikube
   block:
