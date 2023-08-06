@@ -15,23 +15,10 @@
 
 
 - name: Ejecutar kustomization.yml
-  block:
-    - name: Ejecutar kustomization.yml
-      ansible.builtin.shell:
-        chdir: "{{ path }}"
-        cmd: kubectl apply -k .
-  rescue:
-    - name: Copiar fichero kubernetes en home
-      ansible.builtin.copy:
-        src: "/home/{{ ansible_user }}/.kube/"
-        dest: $HOME/.kube/
-        mode: '0755'
-        remote_src: true
-
-    - name: Ejecutar kustomization.yml
-      ansible.builtin.shell:
-        chdir: "{{ path }}"
-        cmd: kubectl apply -k .
+  ansible.builtin.shell:
+    chdir: "{{ path }}"
+    cmd: kubectl apply -k .
+  become: false
 
 
 - name: Añadir linea a fichero kustomization
@@ -53,6 +40,7 @@
   ansible.builtin.shell:
     chdir: "{{ path }}"
     cmd: kubectl apply -k .
+  become: false
 
 
 - name: Requirements python modulo kubernetes
@@ -65,12 +53,13 @@
     wait: yes
     name: "{{ item }}"
     namespace: awx
-    wait_timeout: 1000
-    wait_sleep: 30
+    wait_timeout: 2000
+    wait_sleep: 10
   loop:
     - awx-operator-controller-manager
     - awx-demo-task
     - awx-demo-web
+  become: false
 
 
 - name: Obtener url de minikube
@@ -80,22 +69,28 @@
   become: false
 
 
+- name: Dividir la URL en una lista
+  ansible.builtin.set_fact:
+    url_parts: "{{ url.stdout.split(':') }}"
+
+
 - name: Obtener password admin AWX
   kubernetes.core.k8s_info:
     kind: Secret
     name: awx-demo-admin-password
     namespace: awx
   register: password
+  become: false
 
 
 - name: Añadir dominio a /etc/host
   ansible.builtin.lineinfile:
     path: /etc/hosts
-    line: "{{ url.stdout }}   awx.local"
+    line: "{{ url_parts[1][2::] }}  awx.local"
 
 
 - name: Msg url, usuario, password
   ansible.builtin.debug:
-    msg: "url:awx.local ({{ url.stdout }}); user:admin;  password:{{ password.resources[0].data.password | b64decode }}"
+    msg: "url: awx.local:{{ url_parts[2]}} ({{ url_parts[1][2::] }}:{{ url_parts[2]}})  user:admin   password:{{ password.resources[0].data.password | b64decode }}"
 
 ...
