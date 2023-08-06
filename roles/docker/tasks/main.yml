@@ -33,7 +33,7 @@
   block:
     - name: Comprobar instalacion docker compose
       ansible.builtin.stat:
-        path: /usr/local/bin/docker-compose
+        path: "{{ path }}/docker-compose"
       register: compose
 
     - name: Debug compose
@@ -45,7 +45,7 @@
     - name: Descargar e instalar docker-compose
       ansible.builtin.get_url:
         url: https://github.com/docker/compose/releases/download/v{{ version_compose}}/docker-compose-Linux-{{ ansible_architecture }}
-        dest: /usr/bin/docker-compose
+        dest: "{{ path }}/docker-compose"
         owner: root
         group: root
         mode: '0755'

@@ -14,7 +14,7 @@
     - name: Descargar e instalar paquete 
       ansible.builtin.get_url:
         url: https://storage.googleapis.com/minikube/releases/v{{ version }}/minikube-linux-amd64
-        dest: /usr/bin/minikube
+        dest: "{{ path }}/minikube"
         owner: root
         group: root
         mode: '0755'

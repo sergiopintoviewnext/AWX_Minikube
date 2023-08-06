@@ -1,5 +1,7 @@
 ---
 
+path: /usr/bin
+
 paquete_docker: '{% if ansible_os_family == "Debian" %}docker.io{% elif ansible_os_family == "RedHat" %}docker-ce{% elif ansible_os_family == "Suse" %}docker{% endif %}'
 
 version_compose: 2.17.3

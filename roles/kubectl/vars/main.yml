@@ -1,5 +1,7 @@
 ---
 
+path: /usr/bin
+
 version: 1.27.4
 
 ...

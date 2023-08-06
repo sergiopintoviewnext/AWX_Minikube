@@ -13,7 +13,7 @@
     - name: Descargar e instalar paquete 
       ansible.builtin.get_url:
         url: https://dl.k8s.io/release/v{{ version }}/bin/linux/amd64/kubectl
-        dest: /usr/bin/kubectl
+        dest: "{{ path }}/kubectl"
         owner: root
         group: root
         mode: '0755'
