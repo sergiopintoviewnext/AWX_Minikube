@@ -42,19 +42,13 @@
         success_msg: "Docker compose instalado en la version: {{ version_compose }}"
         fail_msg: "Docker compose no esta instalado"
   rescue:
-    - name: Instalar docker-compose
+    - name: Descargar e instalar docker-compose
       ansible.builtin.get_url:
         url: https://github.com/docker/compose/releases/download/v{{ version_compose}}/docker-compose-Linux-{{ ansible_architecture }}
-        dest: /usr/local/bin/docker-compose
-        mode: '0755'
-
-    - name: Dar permisos de ejecucion a docker-compose
-      ansible.builtin.file:
-        path: /usr/local/bin/docker-compose
+        dest: /usr/bin/docker-compose
         owner: root
         group: root
         mode: '0755'
-        state: file
 
 
 - name: Añadir usuario a grupo docker

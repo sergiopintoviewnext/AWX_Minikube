@@ -12,6 +12,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
@@ -23,6 +24,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock      
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
@@ -34,6 +36,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock      
     capabilities:
       - SYS_ADMIN
     command: "/lib/systemd/systemd"
@@ -44,6 +47,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock      
     capabilities:
       - SYS_ADMIN
     command: "/usr/sbin/init"
