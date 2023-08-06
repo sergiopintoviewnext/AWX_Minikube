@@ -11,20 +11,13 @@
       ansible.builtin.debug:
         msg: "Minikube instalado en la version: {{ minikube.stdout_lines[0][18::] }}"
   rescue:
-    - name: Descargar paquete 
-      ansible.builtin.uri:
-        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-        dest: "{{ path }}"
-
-    - name: Instalar Minikube
-      ansible.builtin.command:
-        chdir: "{{ path }}"
-        cmd: install minikube-linux-amd64 /usr/bin/minikube
-
-    - name: Eliminar paquete
-      ansible.builtin.file:
-        path: "{{ path }}/minikube-linux-amd64"
-        state: absent
+    - name: Descargar e instalar paquete 
+      ansible.builtin.get_url:
+        url: https://storage.googleapis.com/minikube/releases/v{{ version }}/minikube-linux-amd64
+        dest: /usr/bin/minikube
+        owner: root
+        group: root
+        mode: '0755'
     
 
 - name: Iniciar Minikube
